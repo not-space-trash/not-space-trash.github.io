@@ -17,3 +17,6 @@ A transparent PNG works best. Anything you don't provide keeps its crayon placeh
 
 ## Props
 - `rocks`, `boot`, `backpack`, `flag`, `footprints`, `trash`, `instrument`, `balance`, `gauge`, `hourglass`
+
+## Real NASA Dataset Photos (`src/assets/nasa/`)
+Optimized archival NASA photos used in the **NASA Photos & Data** modal (`src/components/NasaModal.tsx`) live separately in `src/assets/nasa/` and are cataloged with credits and source URLs in `src/data/nasaEvidence.ts` (and listed in the root `README.md`).
