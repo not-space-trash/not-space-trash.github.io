@@ -7,7 +7,7 @@ export function CrayonDefs() {
   return (
     <svg width="0" height="0" style={{ position: 'absolute' }} aria-hidden="true">
       <defs>
-        <filter id="crayon" x="-10%" y="-10%" width="120%" height="120%" colorInterpolationFilters="sRGB">
+        <filter id="crayon" x="-20%" y="-20%" width="140%" height="140%" colorInterpolationFilters="sRGB">
           <feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="2" seed="4" result="warp" />
           <feDisplacementMap in="SourceGraphic" in2="warp" scale="4.5" xChannelSelector="R" yChannelSelector="G" result="wobbly" />
           <feTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="2" seed="9" result="grain" />

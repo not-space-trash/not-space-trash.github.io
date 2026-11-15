@@ -69,33 +69,35 @@ export function Buggy({ crew = false, drive = false }: { crew?: boolean; drive?:
     <div className="relative">
       {crew && (
         <>
-          <div className="absolute" style={{ left: '27%', bottom: '38%', width: '17%' }}>
+          <div className="absolute" style={{ left: '27%', bottom: '41.1%', width: '17%' }}>
             <Astronaut accent="#ff6b6b" mood="happy" />
           </div>
-          <div className="absolute" style={{ left: '48%', bottom: '38%', width: '17%' }}>
+          <div className="absolute" style={{ left: '48%', bottom: '41.1%', width: '17%' }}>
             <Astronaut accent="#4da3ff" mood="happy" />
           </div>
         </>
       )}
-      <Svg vb="0 0 260 150" className={drive ? 'driving' : ''}>
+      <Svg vb="0 0 260 158" className={drive ? 'driving' : ''}>
         <path d="M205 84 V28" fill="none" />
         <path d="M184 22 Q205 54 226 22 Z" fill="#fff" />
         <path d="M168 84 V58 H150" fill="none" />
         <rect x="26" y="56" width="26" height="20" rx="5" fill="#dfe3f5" />
         <circle cx="39" cy="66" r="6" fill="#8ed3ff" />
         <path d="M30 84 H232 L220 102 H44 Z" fill="#dfe3f5" />
-        <g className="wheel">
-          <circle cx="66" cy="112" r="30" fill="#cfd3e6" />
-          <circle cx="66" cy="112" r="20" fill="#8d86ad" strokeWidth={3} />
-          <path d="M66 94 V130 M48 112 H84 M53 99 L79 125 M79 99 L53 125" strokeWidth={3} fill="none" />
-          <circle cx="66" cy="112" r="6" fill="#fff" />
-        </g>
-        <g className="wheel">
-          <circle cx="196" cy="112" r="30" fill="#cfd3e6" />
-          <circle cx="196" cy="112" r="20" fill="#8d86ad" strokeWidth={3} />
-          <path d="M196 94 V130 M178 112 H214 M183 99 L209 125 M209 99 L183 125" strokeWidth={3} fill="none" />
-          <circle cx="196" cy="112" r="6" fill="#fff" />
-        </g>
+        {[66, 196].map((cx) => (
+          <g key={cx}>
+            <circle cx={cx} cy="112" r="30" fill="#cfd3e6" />
+            <circle cx={cx} cy="112" r="20" fill="#8d86ad" strokeWidth={3} />
+            <g className="wheel" style={{ transformBox: 'view-box', transformOrigin: `${cx}px 112px` }}>
+              <path
+                d={`M${cx} 94 V130 M${cx - 18} 112 H${cx + 18} M${cx - 13} 99 L${cx + 13} 125 M${cx + 13} 99 L${cx - 13} 125`}
+                strokeWidth={3}
+                fill="none"
+              />
+              <circle cx={cx} cy="112" r="6" fill="#fff" />
+            </g>
+          </g>
+        ))}
         <rect x="82" y="52" width="16" height="34" rx="6" fill="#ffe9b0" />
         <rect x="82" y="72" width="38" height="12" rx="5" fill="#ffe9b0" />
         <rect x="130" y="52" width="16" height="34" rx="6" fill="#ffe9b0" />
@@ -137,7 +139,7 @@ export function Dawn({ dim, droop, sleep, glow, vb = '0 0 320 175' }: DawnProps)
 /* ---------- Perseverance rover ---------- */
 export function Rover({ carry = false, drive = false }: { carry?: boolean; drive?: boolean }) {
   return (
-    <Svg vb="0 0 290 175" className={drive ? 'driving' : ''}>
+    <Svg vb="-4 -4 298 188" className={drive ? 'driving' : ''}>
       <path d="M34 92 L8 112 L20 134" fill="none" stroke={INK} strokeWidth={13} />
       <path d="M34 92 L8 112 L20 134" fill="none" stroke="#8d86ad" strokeWidth={6} />
       <path d="M215 72 V38" fill="none" strokeWidth={8} />
@@ -156,13 +158,18 @@ export function Rover({ carry = false, drive = false }: { carry?: boolean; drive
           <circle cx="152" cy="124" r="2.5" fill={INK} stroke="none" />
         </g>
       )}
-      {[0, 1, 2, 3, 4, 5].map((i) => (
-        <g key={i} className="wheel">
-          <circle cx={46 + i * 40} cy="146" r="18" fill="#6b6580" />
-          <circle cx={46 + i * 40} cy="146" r="7" fill="#e8e4f5" strokeWidth={3} />
-          <path d={`M${46 + i * 40} 132 V160 M${32 + i * 40} 146 H${60 + i * 40}`} strokeWidth={3} fill="none" />
-        </g>
-      ))}
+      {[0, 1, 2, 3, 4, 5].map((i) => {
+        const cx = 46 + i * 40;
+        return (
+          <g key={i}>
+            <circle cx={cx} cy="146" r="18" fill="#6b6580" />
+            <g className="wheel" style={{ transformBox: 'view-box', transformOrigin: `${cx}px 146px` }}>
+              <path d={`M${cx} 132 V160 M${cx - 14} 146 H${cx + 14}`} strokeWidth={3} fill="none" />
+              <circle cx={cx} cy="146" r="7" fill="#e8e4f5" strokeWidth={3} />
+            </g>
+          </g>
+        );
+      })}
     </Svg>
   );
 }
