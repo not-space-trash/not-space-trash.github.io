@@ -53,7 +53,7 @@ export default function StoryScreen({ story, onExit, onFinish }: { story: Story;
 
   const speak = () => {
     const s = window.speechSynthesis;
-    if (!s) return;
+    if (!s || typeof SpeechSynthesisUtterance === 'undefined') return;
     s.cancel();
     const u = new SpeechSynthesisUtterance(scene.text.replace(/\*\*/g, ''));
     u.rate = 0.9;
@@ -69,7 +69,7 @@ export default function StoryScreen({ story, onExit, onFinish }: { story: Story;
         <Background bg={scene.bg} />
         <div key={i} className="absolute inset-0">
           {scene.actors.map((s, n) => (
-            <Actor key={`${i}-${n}`} s={s} />
+            <Actor key={`${i}-${n}`} s={s} bg={scene.bg} />
           ))}
         </div>
       </div>
@@ -82,7 +82,15 @@ export default function StoryScreen({ story, onExit, onFinish }: { story: Story;
         <div className="h-[1.4vh] min-h-2 w-[28vw] overflow-hidden rounded-full border-2 border-white/30 bg-white/15" aria-hidden="true">
           <div className="h-full rounded-full bg-[#ffd84d] transition-all duration-500" style={{ width: `${pct}%` }} />
         </div>
-        <RoundBtn onClick={prev} label="Previous" size={4.6} className={i === 0 ? 'pointer-events-none opacity-0' : ''}>
+        <RoundBtn
+          onClick={prev}
+          label="Previous"
+          size={4.6}
+          disabled={i === 0}
+          tabIndex={i === 0 ? -1 : undefined}
+          ariaHidden={i === 0 || undefined}
+          className={i === 0 ? 'pointer-events-none opacity-0' : ''}
+        >
           <IconBack />
         </RoundBtn>
       </div>

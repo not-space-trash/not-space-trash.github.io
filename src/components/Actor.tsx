@@ -1,5 +1,6 @@
 import { useState, type CSSProperties, type ReactNode } from 'react';
 import { resolveCustom } from '../lib/customArt';
+import type { BgKey } from './Background';
 import { LunarModule, Mothership, Buggy, Dawn, Rover, Ginny, Satellite } from './art/vehicles';
 import { David, James, Neil, Buzz } from './art/people';
 import { Earth, MoonBody, MarsBody, Ceres, CeresCut, Vesta, Asteroid, Orbit } from './art/worlds';
@@ -76,13 +77,15 @@ const REG: Record<string, (p: P) => ReactNode> = {
 };
 
 const GROUNDED = new Set(['falcon', 'eagle', 'buggy', 'david', 'james', 'neil', 'buzz', 'rover', 'ginny', 'rocks', 'flag', 'instrument', 'boot', 'backpack', 'trash']);
+const GROUND_BGS = new Set<BgKey>(['moon', 'moonMtn', 'mars', 'marsDunes', 'marsDawn']);
 
-export function Actor({ s }: { s: ActorSpec }) {
+export function Actor({ s, bg }: { s: ActorSpec; bg?: BgKey }) {
   const [boing, setBoing] = useState(0);
   const draw = REG[s.k];
   if (!draw) return null;
   const custom = resolveCustom(s.k, s.p);
-  const shadow = GROUNDED.has(s.k) && s.y >= 18 && s.y <= 38 && !(s.a === 'toss');
+  const hasGround = bg ? GROUND_BGS.has(bg) : true;
+  const shadow = hasGround && GROUNDED.has(s.k) && s.y >= 18 && s.y <= 38 && !(s.a === 'toss');
 
   const outer: CSSProperties = {
     left: `${s.x}%`,
@@ -102,8 +105,8 @@ export function Actor({ s }: { s: ActorSpec }) {
           style={{ bottom: '-3%', width: '85%', height: 'calc(var(--u) * 1.1)', background: 'rgba(40,25,70,.28)', filter: 'blur(3px)' }}
         />
       )}
-      <div className={s.a ? `a-${s.a}` : ''} style={{ animationDelay: s.d ? `${s.d}s` : undefined }}>
-        <div className={s.i ? `a-${s.i}` : ''}>
+      <div className={s.a ? `a-${s.a}` : ''} style={{ animationDelay: s.a && s.d ? `${s.d}s` : undefined }}>
+        <div className={s.i ? `a-${s.i}` : ''} style={{ animationDelay: !s.a && s.d ? `${s.d}s` : undefined }}>
           <div
             key={boing}
             className={`cursor-pointer ${boing ? 'a-boing' : ''}`}

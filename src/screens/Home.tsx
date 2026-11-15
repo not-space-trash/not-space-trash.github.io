@@ -75,12 +75,12 @@ export default function Home({ done, onPick, onFinale, onReset }: Props) {
         </div>
       ))}
 
-      <h1 className="title-crayon a-pop absolute inset-x-0 z-10 text-center" style={{ top: '2.5vh', fontSize: 'calc(var(--u) * 5.4)', lineHeight: 1.1 }}>
-        Who’s still up there?
+      <h1 className="title-crayon a-pop pointer-events-none absolute inset-x-0 z-10 text-center" style={{ top: '2.5vh', fontSize: 'calc(var(--u) * 5)', lineHeight: 1.1 }}>
+        Don&apos;t Call Us Space Trash!
       </h1>
 
       {/* collected stars */}
-      <div className="absolute right-[2vw] top-[2.5vh] z-10 flex gap-1" aria-label={`${done.length} of 4 friends met`}>
+      <div className="absolute right-[2vw] top-[2.5vh] z-20 flex gap-1" aria-label={`${done.length} of 4 friends met`}>
         {ALL_IDS.map((id) => (
           <div key={id} style={{ width: 'calc(var(--u) * 3)', opacity: done.includes(id) ? 1 : 0.28, filter: done.includes(id) ? 'none' : 'grayscale(1)' }}>
             <Star />
@@ -89,12 +89,12 @@ export default function Home({ done, onPick, onFinale, onReset }: Props) {
       </div>
 
       {allDone && (
-        <div className="absolute left-[2vw] top-[2.5vh] z-10 flex items-center gap-2">
-          <button onClick={onFinale} className="crayon-btn a-glow flex items-center gap-2" style={{ ['--bg' as any]: '#ffd84d', padding: 'calc(var(--u) * .6) calc(var(--u) * 1.6)' }}>
+        <div className="absolute left-[2vw] top-[2.5vh] z-20 flex items-center gap-2">
+          <button type="button" onClick={onFinale} className="crayon-btn a-glow flex items-center gap-2" style={{ ['--bg' as any]: '#ffd84d', padding: 'calc(var(--u) * .6) calc(var(--u) * 1.6)' }}>
             <span style={{ width: 'calc(var(--u) * 2.6)' }}><Star /></span>
             <span className="font-display" style={{ fontSize: 'calc(var(--u) * 2.4)' }}>Finale</span>
           </button>
-          <button onClick={onReset} aria-label="Start over" className="crayon-btn p-2" style={{ ['--bg' as any]: '#fff6dc', width: 'calc(var(--u) * 3.6)', height: 'calc(var(--u) * 3.6)', minWidth: 40, minHeight: 40 }}>
+          <button type="button" onClick={onReset} aria-label="Start over" className="crayon-btn flex items-center justify-center p-2" style={{ ['--bg' as any]: '#fff6dc', width: 'calc(var(--u) * 3.6)', height: 'calc(var(--u) * 3.6)', minWidth: 40, minHeight: 40 }}>
             <IconReplay />
           </button>
         </div>
