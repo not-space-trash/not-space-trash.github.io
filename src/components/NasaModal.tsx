@@ -112,10 +112,10 @@ export default function NasaModal({ initialStory, initialPhotoId, onClose }: Pro
         {/* Header + Explorer Pills */}
         <div className="flex shrink-0 items-center justify-between gap-3">
           <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
-            <h2 id="nasa-modal-title" className="title-crayon leading-none" style={{ fontSize: 'clamp(1.6rem, calc(var(--u) * 3.1), 2.4rem)' }}>
+            <h2 id="nasa-modal-title" className="title-crayon leading-none" style={{ fontSize: 'clamp(1.5rem, calc(var(--u) * 2.8), 2.2rem)' }}>
               Real NASA Photos!
             </h2>
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap items-center gap-2.5">
               {EXPLORERS.map((ex) => {
                 const active = item.story === ex.story;
                 return (
@@ -123,9 +123,13 @@ export default function NasaModal({ initialStory, initialPhotoId, onClose }: Pro
                     key={ex.story}
                     type="button"
                     onClick={() => jumpToStory(ex.story)}
-                    className="crayon-btn font-display px-4 py-1 text-base"
+                    className="crayon-btn font-display whitespace-nowrap"
                     style={{
                       ['--bg' as any]: active ? '#ffd84d' : ex.bg,
+                      padding: 'max(6px, calc(var(--u) * .45)) max(18px, calc(var(--u) * 1.4))',
+                      fontSize: 'clamp(0.95rem, calc(var(--u) * 1.55), 1.25rem)',
+                      lineHeight: 1.15,
+                      letterSpacing: '0.02em',
                       transform: active ? 'scale(1.06)' : undefined,
                     }}
                   >
