@@ -14,9 +14,9 @@ Built by **4 Orang 0 Solusi** for the **2026 NASA Space Apps Challenge**: *"Aban
 
 What happens to a space explorer when its mission ends?
 
-**Don't Call Us Space Trash!** turns historic NASA hardware into friendly illustrated characters who tell their own stories for younger learners. Starting right from a space map with an immediate guide (*"Tap a world to read true NASA stories of real spacecraft still up in space!"*), visitors explore the **Moon**, the **Asteroid Belt**, and **Mars** to meet real spacecraft that completed extraordinary science and still rest across the solar system today.
+**Don't Call Us Space Trash!** turns historic NASA hardware into friendly illustrated characters who tell their own stories for younger learners. Starting right from a space map with an immediate guide (*"Tap a world to meet real NASA spacecraft!"*), visitors explore the **Moon**, the **Asteroid Belt**, and **Mars** to meet real spacecraft that completed extraordinary science and still rest across the solar system today.
 
-While the dialogue and crayon illustrations are creative storytelling, every mission arc is rooted in historical NASA records—and users can open the **NASA Photos & Data** viewer directly from the home screen or inside any story to inspect real archival NASA photographs alongside catalog IDs, credits, and original source links.
+While the dialogue and crayon illustrations are creative storytelling, every mission arc is rooted in historical NASA records—and users can open the **Real NASA Photos** scrapbook viewer directly from the home screen or inside any story to see each cartoon character side by side with real archival NASA photographs, simple kid-friendly explanations, audio narration, catalog IDs, credits, and original source links.
 
 ---
 
@@ -35,14 +35,14 @@ Complete all four stories to collect all four stars and unlock the **Finale**.
 
 1. Open [Don't Call Us Space Trash! Live App](https://not-space-trash.github.io/).
 2. Pick **Moon** (Falcon or Eagle), **Asteroid Belt** (Dawn), or **Mars** (Ginny) from the home map.
-3. Read or listen (`Read to me` speech synthesis) scene by scene, and tap the **NASA Photos & Data** button on the home screen (or the camera icon in any story) to compare the storybook with real NASA imagery and dataset records.
+3. Read or listen (`Read to me` speech synthesis) scene by scene, and tap the **Real NASA Photos** button on the home screen (or the camera icon in any story) to compare the storybook with real NASA imagery and story-linked facts.
 4. Finish all four explorers to unlock the **Finale** (`Progress` saves locally in `localStorage`).
 
 ---
 
 ## 🛰️ NASA Data & Resources Used
 
-The app runs purely statically without runtime API calls; it bundles 6 optimized public archival NASA photographs (`src/assets/nasa/`) in the **NASA Photos & Data** gallery (`src/data/nasaEvidence.ts`) and draws mission facts from official NASA reports and articles:
+The app runs purely statically without runtime API calls; it bundles 6 optimized public archival NASA photographs (`src/assets/nasa/`) in the **Real NASA Photos** scrapbook (`src/data/nasaEvidence.ts`) and draws mission facts from official NASA reports and articles:
 
 ### Archival NASA Images & Datasets Featured In-App
 
