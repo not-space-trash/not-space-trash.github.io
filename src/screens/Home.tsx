@@ -1,13 +1,16 @@
+import { useState } from 'react';
 import Background from '../components/Background';
+import NasaModal from '../components/NasaModal';
 import { MoonBody, MarsBody, BeltTile, Ceres } from '../components/art/worlds';
 import { LunarModule, Ginny, Dawn } from '../components/art/vehicles';
 import { Star, Sparkle } from '../components/art/props';
-import { IconGitHub, IconReplay } from '../components/Icons';
+import { IconCamera, IconGitHub, IconReplay } from '../components/Icons';
 import { ALL_IDS, WORLD_STORIES, type StoryId, type World } from '../data/stories';
 
 type Props = { done: StoryId[]; onPick: (w: World) => void; onFinale: () => void; onReset: () => void };
 
 export default function Home({ done, onPick, onFinale, onReset }: Props) {
+  const [showNasa, setShowNasa] = useState(false);
   const allDone = ALL_IDS.every((id) => done.includes(id));
 
   const tiles: { w: World; label: string; delay: string; lift: string; art: React.ReactNode }[] = [
@@ -75,9 +78,21 @@ export default function Home({ done, onPick, onFinale, onReset }: Props) {
         </div>
       ))}
 
-      <h1 className="title-crayon a-pop pointer-events-none absolute inset-x-0 z-10 text-center" style={{ top: '2.5vh', fontSize: 'calc(var(--u) * 5)', lineHeight: 1.1 }}>
-        Don&apos;t Call Us Space Trash!
-      </h1>
+      <div className="pointer-events-none absolute inset-x-0 z-10 flex flex-col items-center px-[16vw] text-center" style={{ top: '2.2vh', gap: '0.5vh' }}>
+        <h1 className="title-crayon a-pop" style={{ fontSize: 'calc(var(--u) * 4.8)', lineHeight: 1.05 }}>
+          Don&apos;t Call Us Space Trash!
+        </h1>
+        <p
+          className="a-text font-semibold leading-tight"
+          style={{
+            color: '#fff6dc',
+            textShadow: '0 2px 0 #3a2a55, 0 0 12px rgba(20,16,58,.9)',
+            fontSize: 'clamp(0.85rem, calc(var(--u) * 1.75), 1.4rem)',
+          }}
+        >
+          Tap a world to read true NASA stories of real spacecraft still up in space!
+        </p>
+      </div>
 
       {/* collected stars */}
       <div className="absolute right-[2vw] top-[2.5vh] z-20 flex gap-1" aria-label={`${done.length} of 4 friends met`}>
@@ -100,7 +115,7 @@ export default function Home({ done, onPick, onFinale, onReset }: Props) {
         </div>
       )}
 
-      <div className="home-tiles absolute inset-x-0 bottom-0 flex items-center justify-around" style={{ top: '15vh', padding: '0 2vw 2vh' }}>
+      <div className="home-tiles absolute inset-x-0 bottom-0 flex items-center justify-around" style={{ top: '17vh', padding: '0 2vw 2vh' }}>
         {tiles.map((t) => {
           const ids = WORLD_STORIES[t.w];
           return (
@@ -121,6 +136,30 @@ export default function Home({ done, onPick, onFinale, onReset }: Props) {
             </button>
           );
         })}
+      </div>
+
+      {/* NASA photos & credits button */}
+      <div className="a-pop absolute bottom-[2.5vh] left-[2vw] z-20" style={{ animationDelay: '.3s' }}>
+        <div className="a-float" style={{ animationDelay: '-1.5s' }}>
+          <button
+            type="button"
+            onClick={() => setShowNasa(true)}
+            aria-label="Real NASA photos and dataset credits"
+            className="crayon-btn flex items-center gap-2"
+            style={{
+              ['--bg' as any]: '#bfe6ff',
+              padding: 'calc(var(--u) * .65) calc(var(--u) * 1.4)',
+              minHeight: 46,
+            }}
+          >
+            <span className="gh-boing block shrink-0" style={{ width: 'max(20px, calc(var(--u) * 2.4))', height: 'max(20px, calc(var(--u) * 2.4))' }}>
+              <IconCamera />
+            </span>
+            <span className="font-display whitespace-nowrap" style={{ fontSize: 'max(14px, calc(var(--u) * 2))' }}>
+              NASA Photos &amp; Data
+            </span>
+          </button>
+        </div>
       </div>
 
       {/* GitHub repo link */}
@@ -145,6 +184,8 @@ export default function Home({ done, onPick, onFinale, onReset }: Props) {
           </a>
         </div>
       </div>
+
+      {showNasa && <NasaModal onClose={() => setShowNasa(false)} />}
     </div>
   );
 }

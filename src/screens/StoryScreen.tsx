@@ -2,7 +2,8 @@ import { useCallback, useEffect, useState } from 'react';
 import Background from '../components/Background';
 import { Actor } from '../components/Actor';
 import Narrator from '../components/Narrator';
-import { IconBack, IconHome, IconNext, IconSpeaker, RoundBtn } from '../components/Icons';
+import NasaModal from '../components/NasaModal';
+import { IconBack, IconCamera, IconHome, IconNext, IconSpeaker, RoundBtn } from '../components/Icons';
 import type { Story } from '../data/stories';
 
 function renderText(text: string) {
@@ -20,6 +21,7 @@ function renderText(text: string) {
 export default function StoryScreen({ story, onExit, onFinish }: { story: Story; onExit: () => void; onFinish: () => void }) {
   const [i, setI] = useState(0);
   const [quake, setQuake] = useState(false);
+  const [showNasa, setShowNasa] = useState(false);
   const scene = story.scenes[i];
   const last = i === story.scenes.length - 1;
 
@@ -40,6 +42,7 @@ export default function StoryScreen({ story, onExit, onFinish }: { story: Story;
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
+      if (showNasa) return;
       if (e.key === 'ArrowRight') next();
       else if (e.key === 'ArrowLeft') prev();
       else if (e.key === 'Escape') onExit();
@@ -49,7 +52,7 @@ export default function StoryScreen({ story, onExit, onFinish }: { story: Story;
       window.removeEventListener('keydown', onKey);
       window.speechSynthesis?.cancel();
     };
-  }, [next, prev, onExit]);
+  }, [next, prev, onExit, showNasa]);
 
   const speak = () => {
     const s = window.speechSynthesis;
@@ -76,10 +79,15 @@ export default function StoryScreen({ story, onExit, onFinish }: { story: Story;
 
       {/* top bar */}
       <div className="absolute inset-x-0 top-0 z-30 flex items-center justify-between gap-4" style={{ padding: '2vh 2vw' }}>
-        <RoundBtn onClick={onExit} label="Back to the map" bg="#ffd84d">
-          <IconHome />
-        </RoundBtn>
-        <div className="h-[1.4vh] min-h-2 w-[28vw] overflow-hidden rounded-full border-2 border-white/30 bg-white/15" aria-hidden="true">
+        <div className="flex items-center gap-2">
+          <RoundBtn onClick={onExit} label="Back to the map" bg="#ffd84d">
+            <IconHome />
+          </RoundBtn>
+          <RoundBtn onClick={() => setShowNasa(true)} label="Real NASA photos & dataset credits" bg="#bfe6ff" size={4.6}>
+            <IconCamera />
+          </RoundBtn>
+        </div>
+        <div className="h-[1.4vh] min-h-2 w-[26vw] overflow-hidden rounded-full border-2 border-white/30 bg-white/15" aria-hidden="true">
           <div className="h-full rounded-full bg-[#ffd84d] transition-all duration-500" style={{ width: `${pct}%` }} />
         </div>
         <RoundBtn
@@ -112,6 +120,8 @@ export default function StoryScreen({ story, onExit, onFinish }: { story: Story;
           </div>
         </div>
       </div>
+
+      {showNasa && <NasaModal initialFilter={story.id === 'ending' ? 'all' : story.id} onClose={() => setShowNasa(false)} />}
     </div>
   );
 }
