@@ -22,7 +22,7 @@ export default function Complete({ story, done, onNext }: { story: Story; done: 
           <div className="a-glow">
             <Star />
           </div>
-          <div className="absolute left-1/2 top-[52%] -translate-x-1/2 -translate-y-1/2" style={{ width: '58%' }}>
+          <div className="absolute left-1/2 top-[52%] flex -translate-x-1/2 -translate-y-1/2 justify-center" style={{ width: '58%' }}>
             <Narrator who={story.narrator} size={11} showName={false} />
           </div>
         </div>

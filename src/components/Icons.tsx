@@ -24,16 +24,30 @@ export const IconReplay = () => (
 );
 
 export function RoundBtn({
-  children, onClick, label, bg = '#fff6dc', size = 5.4, className = '',
-}: { children: ReactNode; onClick: () => void; label: string; bg?: string; size?: number; className?: string }) {
+  children, onClick, label, bg = '#fff6dc', size = 5.4, className = '', disabled = false, tabIndex, ariaHidden,
+}: {
+  children: ReactNode;
+  onClick: () => void;
+  label: string;
+  bg?: string;
+  size?: number;
+  className?: string;
+  disabled?: boolean;
+  tabIndex?: number;
+  ariaHidden?: boolean;
+}) {
   return (
     <button
+      type="button"
       onClick={onClick}
       aria-label={label}
-      className={`crayon-btn shrink-0 p-[22%] ${className}`}
+      disabled={disabled}
+      tabIndex={tabIndex}
+      aria-hidden={ariaHidden}
+      className={`crayon-btn flex shrink-0 items-center justify-center ${className}`}
       style={{ ['--bg' as any]: bg, width: `max(46px, calc(var(--u) * ${size}))`, height: `max(46px, calc(var(--u) * ${size}))` }}
     >
-      {children}
+      <span className="block h-[56%] w-[56%]">{children}</span>
     </button>
   );
 }

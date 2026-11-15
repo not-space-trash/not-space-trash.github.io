@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import Background from '../components/Background';
 import { LunarModule } from '../components/art/vehicles';
 import { Star } from '../components/art/props';
@@ -11,15 +12,23 @@ const CARDS: { id: StoryId; variant: 'falcon' | 'eagle'; title: string; sub: str
 ];
 
 export default function MoonSelect({ done, onPick, onBack }: { done: StoryId[]; onPick: (id: StoryId) => void; onBack: () => void }) {
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onBack();
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [onBack]);
+
   return (
     <div className="a-screen absolute inset-0 overflow-hidden">
       <Background bg="moon" />
-      <div className="absolute left-[2vw] top-[2.5vh] z-10">
+      <div className="absolute left-[2vw] top-[2.5vh] z-20">
         <RoundBtn onClick={onBack} label="Back" bg="#ffd84d">
           <IconBack />
         </RoundBtn>
       </div>
-      <h1 className="title-crayon a-pop absolute inset-x-0 z-10 text-center" style={{ top: '2.5vh', fontSize: 'calc(var(--u) * 5)' }}>
+      <h1 className="title-crayon a-pop pointer-events-none absolute inset-x-0 z-10 text-center" style={{ top: '2.5vh', fontSize: 'calc(var(--u) * 5)' }}>
         Pick a mission!
       </h1>
 

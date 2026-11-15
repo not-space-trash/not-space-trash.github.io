@@ -55,6 +55,7 @@ button:focus-visible { outline: 4px dashed #ffd84d; outline-offset: 4px; border-
 .crayon-btn::before, .crayon-btn::after { border-radius: 999px; }
 .crayon-btn { transition: transform .15s; }
 .crayon-btn:hover { transform: scale(1.08) rotate(-2deg); }
+.crayon-btn.a-glow:hover { animation: none; transform: scale(1.08) rotate(-2deg); }
 .crayon-btn:active { transform: scale(.94); }
 
 .title-crayon {

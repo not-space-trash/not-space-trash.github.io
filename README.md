@@ -1,6 +1,6 @@
 # not-space-trash.github.io
 
-Left Behind in Space – A Crayon Story of Falcon, Eagle, Dawn & Ginny.
+Don't Call Us Space Trash! – A Crayon Story of Falcon, Eagle, Dawn & Ginny.
 
 ## Development & Deployment
 
