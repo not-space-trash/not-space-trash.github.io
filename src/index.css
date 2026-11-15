@@ -24,7 +24,7 @@ body {
   -webkit-tap-highlight-color: transparent;
 }
 button { font-family: inherit; cursor: pointer; border: 0; background: none; padding: 0; color: inherit; }
-button:focus-visible { outline: 4px dashed #ffd84d; outline-offset: 4px; border-radius: 1.5rem; }
+button:focus-visible, a:focus-visible { outline: 4px dashed #ffd84d; outline-offset: 4px; border-radius: 1.5rem; }
 
 /* ---------- crayon paper textures ---------- */
 .paper-grain {
@@ -56,6 +56,7 @@ button:focus-visible { outline: 4px dashed #ffd84d; outline-offset: 4px; border-
 .crayon-btn { transition: transform .15s; }
 .crayon-btn:hover { transform: scale(1.08) rotate(-2deg); }
 .crayon-btn.a-glow:hover { animation: none; transform: scale(1.08) rotate(-2deg); }
+.crayon-btn:hover .gh-boing { animation: boing .55s ease-out; }
 .crayon-btn:active { transform: scale(.94); }
 
 .title-crayon {

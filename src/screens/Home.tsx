@@ -2,7 +2,7 @@ import Background from '../components/Background';
 import { MoonBody, MarsBody, BeltTile, Ceres } from '../components/art/worlds';
 import { LunarModule, Ginny, Dawn } from '../components/art/vehicles';
 import { Star, Sparkle } from '../components/art/props';
-import { IconReplay } from '../components/Icons';
+import { IconGitHub, IconReplay } from '../components/Icons';
 import { ALL_IDS, WORLD_STORIES, type StoryId, type World } from '../data/stories';
 
 type Props = { done: StoryId[]; onPick: (w: World) => void; onFinale: () => void; onReset: () => void };
@@ -121,6 +121,29 @@ export default function Home({ done, onPick, onFinale, onReset }: Props) {
             </button>
           );
         })}
+      </div>
+
+      {/* GitHub repo link */}
+      <div className="a-pop absolute bottom-[2.5vh] right-[2vw] z-20" style={{ animationDelay: '.35s' }}>
+        <div className="a-float">
+          <a
+            href="https://github.com/not-space-trash/not-space-trash.github.io"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="View source on GitHub"
+            title="View on GitHub"
+            className="crayon-btn flex items-center justify-center"
+            style={{
+              ['--bg' as any]: '#fff6dc',
+              width: 'max(46px, calc(var(--u) * 5.2))',
+              height: 'max(46px, calc(var(--u) * 5.2))',
+            }}
+          >
+            <span className="gh-boing block h-[58%] w-[58%]">
+              <IconGitHub />
+            </span>
+          </a>
+        </div>
       </div>
     </div>
   );
