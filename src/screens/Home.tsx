@@ -78,19 +78,20 @@ export default function Home({ done, onPick, onFinale, onReset }: Props) {
         </div>
       ))}
 
-      <div className="pointer-events-none absolute inset-x-0 z-10 flex flex-col items-center px-[16vw] text-center" style={{ top: '2.2vh', gap: '0.5vh' }}>
-        <h1 className="title-crayon a-pop" style={{ fontSize: 'calc(var(--u) * 4.8)', lineHeight: 1.05 }}>
+      <div className="pointer-events-none absolute inset-x-0 z-10 flex flex-col items-center px-[16vw] text-center" style={{ top: '2vh', gap: '0.8vh' }}>
+        <h1 className="title-crayon a-pop" style={{ fontSize: 'calc(var(--u) * 4.5)', lineHeight: 1.05 }}>
           Don&apos;t Call Us Space Trash!
         </h1>
         <p
-          className="a-text font-semibold leading-tight"
+          className="chip a-text font-bold"
           style={{
-            color: '#fff6dc',
-            textShadow: '0 2px 0 #3a2a55, 0 0 12px rgba(20,16,58,.9)',
-            fontSize: 'clamp(0.85rem, calc(var(--u) * 1.75), 1.4rem)',
+            fontFamily: 'var(--font-body)',
+            whiteSpace: 'normal',
+            padding: 'calc(var(--u) * .28) calc(var(--u) * 1.4)',
+            fontSize: 'clamp(0.9rem, calc(var(--u) * 1.65), 1.3rem)',
           }}
         >
-          Tap a world to read true NASA stories of real spacecraft still up in space!
+          Tap a world to meet real NASA spacecraft!
         </p>
       </div>
 
@@ -156,7 +157,7 @@ export default function Home({ done, onPick, onFinale, onReset }: Props) {
               <IconCamera />
             </span>
             <span className="font-display whitespace-nowrap" style={{ fontSize: 'max(14px, calc(var(--u) * 2))' }}>
-              NASA Photos &amp; Data
+              Real NASA Photos
             </span>
           </button>
         </div>

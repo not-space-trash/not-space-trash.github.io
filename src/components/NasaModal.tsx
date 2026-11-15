@@ -1,33 +1,100 @@
 import { useEffect, useState } from 'react';
 import { NASA_EVIDENCE } from '../data/nasaEvidence';
 import type { StoryId } from '../data/stories';
-import { IconClose, IconExternal, RoundBtn } from './Icons';
+import { Dawn, Ginny, LunarModule, Satellite } from './art/vehicles';
+import { IconBack, IconClose, IconExternal, IconNext, IconSpeaker, RoundBtn } from './Icons';
 
-type Filter = 'all' | StoryId;
+function renderHighlight(text: string) {
+  return text.split('**').map((part, n) =>
+    n % 2 ? (
+      <span key={n} className="font-bold" style={{ color: '#e8501c' }}>
+        {part}
+      </span>
+    ) : (
+      <span key={n}>{part}</span>
+    ),
+  );
+}
 
-const TABS: { id: Filter; label: string }[] = [
-  { id: 'all', label: 'All (6)' },
-  { id: 'falcon', label: 'Falcon' },
-  { id: 'eagle', label: 'Eagle' },
-  { id: 'dawn', label: 'Dawn' },
-  { id: 'ginny', label: 'Ginny' },
+function FriendIcon({ id }: { id: string }) {
+  if (id === 'apollo15-lro') return <Satellite />;
+  if (id === 'apollo15-surface') return <LunarModule variant="falcon" part="bottom" vb="-4 115 208 105" />;
+  if (id === 'apollo11-ascent') return <LunarModule variant="eagle" part="top" vb="32 6 136 136" />;
+  if (id === 'dawn-ceres') return <Dawn glow vb="0 16 320 156" />;
+  if (id === 'ingenuity-blade') return <Ginny broken vb="0 0 172 200" />;
+  return <Ginny />;
+}
+
+const EXPLORERS: { story: StoryId; label: string; bg: string }[] = [
+  { story: 'falcon', label: 'Falcon', bg: '#fff1c2' },
+  { story: 'eagle', label: 'Eagle', bg: '#d9efff' },
+  { story: 'dawn', label: 'Dawn', bg: '#e8ddff' },
+  { story: 'ginny', label: 'Ginny', bg: '#ffd8c2' },
 ];
 
-export default function NasaModal({ initialFilter = 'all', onClose }: { initialFilter?: Filter; onClose: () => void }) {
-  const [filter, setFilter] = useState<Filter>(initialFilter);
+type Props = {
+  initialStory?: StoryId;
+  initialPhotoId?: string;
+  onClose: () => void;
+};
+
+export default function NasaModal({ initialStory, initialPhotoId, onClose }: Props) {
+  const startIdx = (() => {
+    if (initialPhotoId) {
+      const byId = NASA_EVIDENCE.findIndex((p) => p.id === initialPhotoId);
+      if (byId >= 0) return byId;
+    }
+    if (initialStory) {
+      const byStory = NASA_EVIDENCE.findIndex((p) => p.story === initialStory);
+      if (byStory >= 0) return byStory;
+    }
+    return 0;
+  })();
+
+  const [idx, setIdx] = useState(startIdx);
+  const item = NASA_EVIDENCE[idx];
+
+  const prev = () => setIdx((n) => (n - 1 + NASA_EVIDENCE.length) % NASA_EVIDENCE.length);
+  const next = () => setIdx((n) => (n + 1) % NASA_EVIDENCE.length);
+  const jumpToStory = (story: StoryId) => {
+    const first = NASA_EVIDENCE.findIndex((p) => p.story === story);
+    if (first >= 0) setIdx(first);
+  };
+
+  useEffect(() => {
+    window.speechSynthesis?.cancel();
+  }, [idx]);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         e.stopPropagation();
         onClose();
+      } else if (e.key === 'ArrowLeft') {
+        e.stopPropagation();
+        setIdx((n) => (n - 1 + NASA_EVIDENCE.length) % NASA_EVIDENCE.length);
+      } else if (e.key === 'ArrowRight') {
+        e.stopPropagation();
+        setIdx((n) => (n + 1) % NASA_EVIDENCE.length);
       }
     };
     window.addEventListener('keydown', onKey, true);
-    return () => window.removeEventListener('keydown', onKey, true);
+    return () => {
+      window.removeEventListener('keydown', onKey, true);
+      window.speechSynthesis?.cancel();
+    };
   }, [onClose]);
 
-  const items = filter === 'all' ? NASA_EVIDENCE : NASA_EVIDENCE.filter((p) => p.story === filter);
+  const speak = () => {
+    const s = window.speechSynthesis;
+    if (!s || typeof SpeechSynthesisUtterance === 'undefined') return;
+    s.cancel();
+    const text = `${item.title}. ${item.kidFact.replace(/\*\*/g, '')}`;
+    const u = new SpeechSynthesisUtterance(text);
+    u.rate = 0.9;
+    u.pitch = 1.15;
+    s.speak(u);
+  };
 
   return (
     <div
@@ -38,86 +105,125 @@ export default function NasaModal({ initialFilter = 'all', onClose }: { initialF
       onClick={onClose}
     >
       <div
-        className="crayon-box a-pop flex max-h-[88vh] w-[min(95vw,980px)] flex-col"
-        style={{ ['--bg' as any]: '#fff6dc', padding: 'clamp(14px, 2.2vw, 26px)' }}
+        className="crayon-box a-pop flex max-h-[92vh] w-[min(95vw,940px)] flex-col"
+        style={{ ['--bg' as any]: '#fff6dc', padding: 'clamp(12px, 2vw, 24px)' }}
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Header */}
-        <div className="flex shrink-0 items-start justify-between gap-3">
-          <div>
-            <h2 id="nasa-modal-title" className="font-display text-2xl leading-tight text-[#3a2a55] sm:text-3xl">
-              Real NASA Photos &amp; Datasets
+        {/* Header + Explorer Pills */}
+        <div className="flex shrink-0 items-center justify-between gap-3">
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+            <h2 id="nasa-modal-title" className="title-crayon leading-none" style={{ fontSize: 'clamp(1.6rem, calc(var(--u) * 3.1), 2.4rem)' }}>
+              Real NASA Photos!
             </h2>
-            <p className="mt-0.5 text-sm font-medium text-[#5c487c] sm:text-base">
-              Every character and scene in this storybook is based on real NASA missions and public archival photography.
-            </p>
+            <div className="flex flex-wrap gap-2">
+              {EXPLORERS.map((ex) => {
+                const active = item.story === ex.story;
+                return (
+                  <button
+                    key={ex.story}
+                    type="button"
+                    onClick={() => jumpToStory(ex.story)}
+                    className="crayon-btn font-display px-4 py-1 text-base"
+                    style={{
+                      ['--bg' as any]: active ? '#ffd84d' : ex.bg,
+                      transform: active ? 'scale(1.06)' : undefined,
+                    }}
+                  >
+                    {ex.label}
+                  </button>
+                );
+              })}
+            </div>
           </div>
-          <RoundBtn onClick={onClose} label="Close NASA photos" bg="#ffd84d" size={4.4}>
+          <RoundBtn onClick={onClose} label="Close NASA photos" bg="#ffd84d" size={4.2}>
             <IconClose />
           </RoundBtn>
         </div>
 
-        {/* Mission filter tabs */}
-        <div className="mt-3 flex shrink-0 flex-wrap gap-2">
-          {TABS.map((t) => {
-            const active = filter === t.id;
-            return (
-              <button
-                key={t.id}
-                type="button"
-                onClick={() => setFilter(t.id)}
-                className="crayon-btn font-display px-4 py-1.5 text-sm sm:text-base"
-                style={{
-                  ['--bg' as any]: active ? '#ffd84d' : '#ffffff',
-                }}
+        {/* Scrapbook spread */}
+        <div className="mt-3 grid min-h-0 flex-1 grid-cols-1 items-center gap-4 overflow-y-auto overscroll-contain py-1 md:grid-cols-[1.15fr_1fr]">
+          {/* Left: Real NASA Photo frame */}
+          <div className="crayon-box flex flex-col p-3" style={{ ['--bg' as any]: '#1f1750' }}>
+            <div className="relative flex aspect-[4/3] max-h-[39vh] w-full items-center justify-center overflow-hidden rounded-2xl border-[3px] border-[#3a2a55] bg-[#0e0a26]">
+              <img src={item.image} alt={`${item.title} — ${item.credit}`} className="h-full w-full object-contain" />
+              <span className="chip absolute left-2.5 top-2.5 text-sm">{item.badge}</span>
+            </div>
+
+            <div className="mt-2.5 flex flex-wrap items-center justify-between gap-2 px-1 text-xs font-semibold text-[#fff6dc] select-text">
+              <span>
+                {item.credit} · {item.catalogId}
+              </span>
+              <a
+                href={item.sourceUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 rounded-full border-2 border-[#3a2a55] bg-[#ffd84d] px-3 py-0.5 font-bold text-[#3a2a55] transition-transform hover:scale-105"
               >
-                {t.label}
-              </button>
-            );
-          })}
+                <span>NASA Page</span>
+                <span className="inline-block h-3.5 w-3.5">
+                  <IconExternal />
+                </span>
+              </a>
+            </div>
+          </div>
+
+          {/* Right: Story Link + Kid-Friendly Explanation */}
+          <div key={item.id} className="crayon-box a-text flex flex-col justify-between gap-3 p-4 select-text sm:p-5" style={{ ['--bg' as any]: item.cardBg }}>
+            {/* Connection to the story */}
+            <div className="flex items-center gap-3 rounded-2xl border-[2.5px] border-[#3a2a55] bg-[#fffdf5] p-3">
+              <div className="w-14 shrink-0 sm:w-16">
+                <FriendIcon id={item.id} />
+              </div>
+              <div className="min-w-0">
+                <span className="font-display inline-block rounded-full bg-[#ffd84d] px-2.5 py-0.5 text-xs text-[#3a2a55] border border-[#3a2a55]">
+                  In the story:
+                </span>
+                <p className="mt-1 text-sm font-semibold leading-snug text-[#3a2a55] sm:text-base">{renderHighlight(item.storyQuote)}</p>
+              </div>
+            </div>
+
+            {/* Easy kid explanation */}
+            <div className="flex items-start justify-between gap-3 px-1">
+              <div>
+                <h3 className="font-display text-xl leading-tight text-[#3a2a55] sm:text-2xl">{item.title}</h3>
+                <p className="mt-1.5 text-base font-semibold leading-relaxed text-[#3a2a55] sm:text-lg">{renderHighlight(item.kidFact)}</p>
+              </div>
+              <RoundBtn onClick={speak} label="Read to me" bg="#bfe6ff" size={4.2}>
+                <IconSpeaker />
+              </RoundBtn>
+            </div>
+          </div>
         </div>
 
-        {/* Photo cards */}
-        <div className="mt-4 grid min-h-0 flex-1 grid-cols-1 gap-4 overflow-y-auto overscroll-contain pr-1 sm:grid-cols-2">
-          {items.map((item) => (
-            <article
-              key={item.id}
-              className="flex flex-col overflow-hidden rounded-2xl border-[3px] border-[#3a2a55] bg-white shadow-[0_3px_0_rgba(58,42,85,0.22)]"
-            >
-              <div className="relative aspect-[4/3] w-full overflow-hidden border-b-[3px] border-[#3a2a55] bg-[#100c2b]">
-                <img src={item.image} alt={`${item.title} — ${item.credit}`} className="h-full w-full object-contain" />
-                <span className="chip absolute left-2.5 top-2.5 text-xs font-bold">{item.mission}</span>
-              </div>
-              <div className="flex flex-1 flex-col gap-1.5 p-3.5 select-text">
-                <div className="flex flex-wrap items-baseline justify-between gap-1 text-xs font-semibold text-[#6b558c]">
-                  <span>{item.catalogId}</span>
-                  <span>{item.date}</span>
-                </div>
-                <h3 className="font-display text-lg leading-snug text-[#3a2a55]">{item.title}</h3>
-                <p className="flex-1 text-sm leading-snug text-[#463663]">{item.caption}</p>
-                <div className="mt-1 flex flex-wrap items-center justify-between gap-2 border-t border-[#e8dfc2] pt-2 text-xs font-semibold text-[#5a4678]">
-                  <span>{item.credit}</span>
-                  <a
-                    href={item.sourceUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 rounded-full border-2 border-[#3a2a55] bg-[#bfe6ff] px-2.5 py-0.5 text-[#3a2a55] transition-transform hover:scale-105"
-                  >
-                    <span>NASA Source</span>
-                    <span className="inline-block h-3.5 w-3.5">
-                      <IconExternal />
-                    </span>
-                  </a>
-                </div>
-              </div>
-            </article>
-          ))}
-        </div>
+        {/* Bottom Prev / Dots / Next bar */}
+        <div className="mt-3 flex shrink-0 items-center justify-between gap-3">
+          <RoundBtn onClick={prev} label="Previous photo" bg="#ffffff" size={4.2}>
+            <IconBack />
+          </RoundBtn>
 
-        {/* Footer credits note */}
-        <p className="mt-3 shrink-0 text-center text-xs font-medium text-[#5c487c]">
-          Public-domain archival imagery courtesy of NASA, Johnson Space Center, Goddard Space Flight Center, JPL-Caltech, Arizona State University, UCLA, MPS, DLR, IDA &amp; MSSS.
-        </p>
+          <div className="flex items-center gap-2" aria-label={`Photo ${idx + 1} of ${NASA_EVIDENCE.length}`}>
+            {NASA_EVIDENCE.map((p, n) => {
+              const active = n === idx;
+              return (
+                <button
+                  key={p.id}
+                  type="button"
+                  onClick={() => setIdx(n)}
+                  aria-label={`Show ${p.title}`}
+                  className="h-3.5 rounded-full border-2 border-[#3a2a55] transition-all"
+                  style={{
+                    width: active ? 28 : 14,
+                    background: active ? '#ffd84d' : '#ffffff',
+                  }}
+                />
+              );
+            })}
+          </div>
+
+          <RoundBtn onClick={next} label="Next photo" bg="#7bd36b" size={4.8}>
+            <IconNext />
+          </RoundBtn>
+        </div>
       </div>
     </div>
   );

@@ -9,12 +9,14 @@ import type { StoryId } from './stories';
 export type NasaPhoto = {
   id: string;
   story: StoryId;
-  mission: string;
+  explorer: string;
+  badge: string;
+  cardBg: string;
   title: string;
+  storyQuote: string;
+  kidFact: string;
   catalogId: string;
-  date: string;
   image: string;
-  caption: string;
   credit: string;
   sourceUrl: string;
 };
@@ -23,78 +25,90 @@ export const NASA_EVIDENCE: NasaPhoto[] = [
   {
     id: 'apollo15-surface',
     story: 'falcon',
-    mission: 'Apollo 15 · Falcon',
-    title: 'Lunar Module Falcon, Moon Buggy & Hadley Delta',
-    catalogId: 'NASA Photo AS15-88-11866',
-    date: 'August 1, 1971',
+    explorer: 'Falcon',
+    badge: 'Apollo 15 · 1971',
+    cardBg: '#fff1c2',
+    title: 'Falcon & the Moon Buggy',
+    storyQuote: '“Now my **bottom half** still sits on the Moon, right by the parked buggy.”',
+    kidFact:
+      'Astronauts **David** and **James** took this **real photo** on the Moon! That gold lander is **Falcon**, and the car on the right is the real **Moon Buggy**.',
+    catalogId: 'AS15-88-11866',
     image: apollo15Falcon,
-    caption:
-      'Astronaut James Irwin salutes beside the Lunar Module Falcon and Lunar Roving Vehicle beneath Hadley Delta mountain (photographed by Commander David Scott). Falcon’s descent stage and the rover remain on the Moon.',
     credit: 'Credit: NASA / Johnson Space Center',
     sourceUrl: 'https://images.nasa.gov/details/as15-88-11866',
   },
   {
     id: 'apollo15-lro',
     story: 'falcon',
-    mission: 'Apollo 15 · LRO Orbital View',
-    title: 'Lunar Reconnaissance Orbiter Spots Rover & Tracks',
-    catalogId: 'LROC NAC M175252641L/R',
-    date: 'LRO Mission Archive',
+    explorer: 'Falcon',
+    badge: 'Moon Satellite',
+    cardBg: '#fff1c2',
+    title: 'Tracks Seen From Space!',
+    storyQuote: '“Satellites still take pictures of me to test their cameras. **Say cheese!**”',
+    kidFact:
+      'Years later, a **NASA Moon satellite** zoomed in from high above! You can still spot the real **Moon Buggy** and the **tire tracks** in the dust.',
+    catalogId: 'LROC M175252641L/R',
     image: apollo15Lro,
-    caption:
-      'Modern lunar orbiter imagery clearly shows the parked Apollo 15 Lunar Roving Vehicle near Falcon’s descent stage along with astronaut and rover tracks preserved in the lunar soil.',
     credit: 'Credit: NASA / GSFC / Arizona State University',
     sourceUrl: 'https://lroc.im-ldi.com/images/1198',
   },
   {
     id: 'apollo11-ascent',
     story: 'eagle',
-    mission: 'Apollo 11 · Eagle',
-    title: 'Eagle Ascent Stage Over the Moon with Earth Rising',
-    catalogId: 'NASA Photo AS11-44-6642',
-    date: 'July 21, 1969',
+    explorer: 'Eagle',
+    badge: 'Apollo 11 · 1969',
+    cardBg: '#d9efff',
+    title: 'Eagle Flying Back Up',
+    storyQuote: '“His **top cabin** zoomed up with Neil and Buzz!”',
+    kidFact:
+      'Astronaut Michael Collins took this **real photo** from the mothership! You can see **Eagle** flying back up—with **Earth** rising behind!',
+    catalogId: 'AS11-44-6642',
     image: apollo11Eagle,
-    caption:
-      'Captured by Michael Collins from Command Module Columbia as Eagle returned Neil Armstrong and Buzz Aldrin from Tranquility Base. After sample transfer, Eagle’s ascent stage was released in lunar orbit.',
     credit: 'Credit: NASA / Johnson Space Center',
     sourceUrl: 'https://earthobservatory.nasa.gov/images/145332/an-eagle-takes-off-for-home',
   },
   {
     id: 'dawn-ceres',
     story: 'dawn',
-    mission: 'Dawn · Ceres',
-    title: 'Dwarf Planet Ceres & Bright Salt Deposits',
-    catalogId: 'NASA / JPL PIA19562',
-    date: 'May 5–6, 2015',
+    explorer: 'Dawn',
+    badge: 'Dawn · 2015',
+    cardBg: '#e8ddff',
+    title: 'Bright Salty Spots!',
+    storyQuote: '“I found a big secret: Ceres has **salty, muddy water** hiding deep underground!”',
+    kidFact:
+      '**Dawn** took this **real picture** of **Ceres**. See those shiny **white spots**? That is real **salt** left behind by water from underground!',
+    catalogId: 'PIA19562',
     image: dawnCeres,
-    caption:
-      'Imaged by NASA’s Dawn spacecraft from 8,400 miles (13,600 km) above Ceres. Bright spots in Occator Crater revealed carbonate salts from subsurface brine—so Dawn was parked safely in orbit rather than crashed.',
     credit: 'Credit: NASA / JPL-Caltech / UCLA / MPS / DLR / IDA',
     sourceUrl: 'https://photojournal.jpl.nasa.gov/catalog/PIA19562',
   },
   {
     id: 'ingenuity-airfield',
     story: 'ginny',
-    mission: 'Mars 2020 · Ingenuity',
-    title: 'Ingenuity Helicopter in Jezero Crater',
-    catalogId: 'NASA / JPL PIA25213 (Mastcam-Z)',
-    date: 'June 15, 2021 (Sol 114)',
+    explorer: 'Ginny',
+    badge: 'Mars · 2021',
+    cardBg: '#ffd8c2',
+    title: 'Tiny Ginny on Mars',
+    storyQuote: '“I flew **way more** than anyone dreamed!”',
+    kidFact:
+      'Her best friend **Perseverance** snapped this **real photo** on Mars! People thought Ginny might only fly 5 times—she flew **72 times**!',
+    catalogId: 'PIA25213',
     image: marsIngenuity,
-    caption:
-      'Photographed by the Perseverance rover’s Mastcam-Z camera at Airfield D. Built as a 5-flight technology demonstrator, Ingenuity flew 72 times across nearly three years on Mars.',
     credit: 'Credit: NASA / JPL-Caltech / ASU / MSSS',
     sourceUrl: 'https://www.jpl.nasa.gov/images/pia25213-ingenuity-at-airfield-d/',
   },
   {
     id: 'ingenuity-blade',
     story: 'ginny',
-    mission: 'Mars Helicopter · Flight 72',
-    title: 'Shadow of Ingenuity’s Damaged Rotor Blade',
-    catalogId: 'NASA / JPL PIA26243',
-    date: 'January 2024',
+    explorer: 'Ginny',
+    badge: 'Mars · 2024',
+    cardBg: '#ffd8c2',
+    title: 'The Snapped Blade Shadow',
+    storyQuote: '“One day, I landed in bumpy sand hills… **CRACK!** A blade snapped off!”',
+    kidFact:
+      'Ginny took this **real picture** of her own **shadow** on Mars! Look closely at the **tip** of the shadow—you can see where the blade broke.',
+    catalogId: 'PIA26243',
     image: ingenuityBlade,
-    caption:
-      'After a rough landing on sand ripples during its 72nd and final flight on Jan. 18, 2024, Ingenuity’s camera captured the shadow of its snapped rotor blade tip.',
     credit: 'Credit: NASA / JPL-Caltech',
     sourceUrl: 'https://photojournal.jpl.nasa.gov/catalog/PIA26243',
   },

@@ -121,7 +121,19 @@ export default function StoryScreen({ story, onExit, onFinish }: { story: Story;
         </div>
       </div>
 
-      {showNasa && <NasaModal initialFilter={story.id === 'ending' ? 'all' : story.id} onClose={() => setShowNasa(false)} />}
+      {showNasa && (
+        <NasaModal
+          initialStory={story.id === 'ending' ? undefined : story.id}
+          initialPhotoId={
+            story.id === 'falcon' && i >= 17
+              ? 'apollo15-lro'
+              : story.id === 'ginny' && i >= 7
+                ? 'ingenuity-blade'
+                : undefined
+          }
+          onClose={() => setShowNasa(false)}
+        />
+      )}
     </div>
   );
 }
